@@ -34,11 +34,13 @@ $(document).ready(function(){
 	
 //split each word in the sentance to canvas
 createFormatedText=function(sentence){
+	placeHolder.slideUp();
 	placeHolder.html('');
 	sentence.split(' ').forEach(function(entry) {
 		var span=$('<span />',{style:'padding:20px'});
 		placeHolder.append(span);
 		span.append(entry);
+	placeHolder.slideDown();
 //with canvas
   //   	var can = $( '<canvas />', {width:'100', height:'100'} );
 		// placeHolder.append(can);                                  
