@@ -10,26 +10,34 @@ var KEY_CODE_UP = 38, KEY_CODE_DOWN = 40;
 var placeHolder = $('#slide_contents');
 //slider
 var index = 0,index_max=lstSentences.length;
-//get height of content to scroll
-var slide_content_height = $($('#slide_contents').children()[0]).height();
+
 $(document).ready(function () {
   createSliderChildren(lstSentences);
 });
 createSliderChildren = function(sentances){
   sentances.forEach(function(itm){
-    var div=$('<div/>');
-    div.append(itm);
+    
+    var div=seprateWords(itm);
+    //div.append(itm);
     placeHolder.append(div);
   });
   attachSlider();
 };
 
 attachSlider = function(){
+  //get height of content to scroll
+var slide_content_height = $($('#slide_contents').children()[0]).height();
   $('body').on('keyup', function(e){
       if(e.keyCode === KEY_CODE_DOWN)
       {
         if(index < index_max -1){
-            $("#slide_contents").css("transform","translateY("+ ++index * -slide_content_height+"px)");
+            $("#slide_contents").css("transform","translateY("+ ++index * -slide_content_height +"px)");
+            //append highlighter-class to changed words
+            $($('#slide_contents').children()[index]).children().addClass('highlight');
+            setTimeout(function(){
+              $($('#slide_contents').children()[index]).children().removeClass('highlight');
+            },800);
+
       }
     }
   });
@@ -43,4 +51,14 @@ attachSlider = function(){
         }
       }
     });
+  };
+
+seprateWords = function(sentance){
+    var div=$('<div/>');
+    sentance.split(' ').forEach(function(word){
+      var span=$('<span />',{class:'word'});
+      span.append(word);
+      div.append(span);
+    });
+    return div;
   };
