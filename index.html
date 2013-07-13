@@ -7,8 +7,19 @@
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body >
-	<div id="slide_container">
-		<div id="slide_contents" ></div>
-	</div>
+	
+	<div id="slide_container" class="slide_container"></div>
 	<script type="text/javascript" src="app.js"></script>
+	<script type="text/javascript">
+$(document).ready(function () {
+  //createSliderChildren(lstSentences);
+  var lstSentences = ["I do my homework",
+    "You do your homework",
+    "She does her homework",
+    "He does his homework",
+    "We do our homeworks",
+    "They do their homeworks"];
+  $('#slide_container').slider(lstSentences);
+});
+	</script>
 </body>

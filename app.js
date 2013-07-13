@@ -1,24 +1,22 @@
 
-//build array of texts
-var lstSentences = ["I do my homework",
-    "You do your homework",
-    "She does her homework",
-    "He does his homework",
-    "We do our homeworks",
-    "They do their homeworks"];
-var KEY_CODE_UP = 38, KEY_CODE_DOWN = 40;
-var placeHolder = $('#slide_contents');
-//slider
-var index = 0,index_max=lstSentences.length;
+(function($){
+  var lstSentences;
+  var index = 0,index_max=0;
+  var KEY_CODE_UP = 38, KEY_CODE_DOWN = 40;
+  var placeHolder;
+  $.fn.slider = function(sentences){
+      lstSentences = sentences;
+      index_max = lstSentences.length;
+      placeHolder =$('<div />',{id:'slide_contents'});      
+      $(this).append(placeHolder);
+      createSliderChildren(lstSentences);
 
-$(document).ready(function () {
-  createSliderChildren(lstSentences);
-});
+  }
+
 createSliderChildren = function(sentances){
   sentances.forEach(function(itm){
     
     var div=seprateWords(itm);
-    //div.append(itm);
     placeHolder.append(div);
   });
   attachSlider();
@@ -39,53 +37,53 @@ function highlightWord(previousSentence, currentSentence) {
     ;
 }
 function scrollUp(slide_content_height) {
-    if (index > 0) {
-        --index;
-        $("#slide_contents").css("transform", "translateY(" + index * -slide_content_height + "px)");
-        var currentSentence = lstSentences[index];
-        var previousSentence = lstSentences[index + 1];
-        highlightWord(previousSentence, currentSentence);
-    }
+  if (index > 0) {
+      --index;
+      $("#slide_contents").css("transform", "translateY(" + index * -slide_content_height + "px)");
+      var currentSentence = lstSentences[index];
+      var previousSentence = lstSentences[index + 1];
+      highlightWord(previousSentence, currentSentence);
+  }
 }
 function scrollDown(slide_content_height) {
-    if (index < index_max - 1) {
-        $("#slide_contents").css("transform", "translateY(" + ++index * -slide_content_height + "px)");
-        //get the changed words
-        var currentSentence = lstSentences[index];
-        var previousSentence = lstSentences[index - 1];
-        highlightWord(previousSentence, currentSentence);
-    }
+  if (index < index_max - 1) {
+      $("#slide_contents").css("transform", "translateY(" + ++index * -slide_content_height + "px)");
+      //get the changed words
+      var currentSentence = lstSentences[index];
+      var previousSentence = lstSentences[index - 1];
+      highlightWord(previousSentence, currentSentence);
+  }
 }
 attachSlider = function(){
     //get height of content to scroll
 var slide_content_height = $($('#slide_contents').children()[0]).height();
-  $('body').on('keyup', function(e){
-      if(e.keyCode === KEY_CODE_DOWN)
-      {
-        scrollDown(slide_content_height);
+$('body').on('keyup', function(e){
+    if(e.keyCode === KEY_CODE_DOWN)
+    {
+      scrollDown(slide_content_height);
+  }
+});
+
+$('body').on('keyup', function(e){
+   if(e.keyCode === KEY_CODE_UP)
+    {
+        scrollUp(slide_content_height);
     }
   });
-
-
-  $('body').on('keyup', function(e){
-     if(e.keyCode === KEY_CODE_UP)
-      {
-          scrollUp(slide_content_height);
+  $('body').swipe({
+      swipe:function(event, direction, distance, duration, fingerCount) {
+          switch (direction){
+              case 'up':
+                  scrollDown(slide_content_height);
+                  break;
+              case 'down':
+                  scrollUp(slide_content_height);
+                  break;
+          }
       }
-    });
-    $('body').swipe({
-        swipe:function(event, direction, distance, duration, fingerCount) {
-            switch (direction){
-                case 'up':
-                    scrollDown(slide_content_height);
-                    break;
-                case 'down':
-                    scrollUp(slide_content_height);
-                    break;
-            }
-        }
-    });
-  };
+  });
+};
+
 seprateWords = function(sentance){
     var div=$('<div/>');
     sentance.split(' ').forEach(function(word){
@@ -95,5 +93,4 @@ seprateWords = function(sentance){
     });
     return div;
   };
-
-
+})(jQuery);
