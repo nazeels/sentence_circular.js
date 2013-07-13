@@ -1,0 +1,22 @@
+/*---- Slider |start| ------ */
+p#slide1_controls {
+text-align:center;
+}
+
+#slide_container {
+width:150px;
+height:20px;
+overflow:hidden;
+margin:0 auto;
+}
+
+#slide_contents {
+-webkit-transition:all 1.0s ease-in-out;
+}
+
+#slide_contents div {
+padding:0;
+margin:0;
+float:left;
+}
+/*---- Slider |end| ------ */
