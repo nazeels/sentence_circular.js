@@ -24,28 +24,45 @@ createSliderChildren = function(sentances){
   attachSlider();
 };
 
+function highlightWord(previousSentence, currentSentence) {
+    for (var i = 0; i < previousSentence.split(' ').length; i++) {
+        if (previousSentence.split(' ')[i] !== currentSentence.split(' ')[i]) {
+            //append highlighter-class to changed words
+            $($($('#slide_contents').children()[index]).children()[i]).addClass('highlight');
+            (function (j) {
+                setTimeout(function () {
+                    $($($('#slide_contents').children()[index]).children()[j]).removeClass('highlight');
+                }, 800);
+            })(i);
+        }
+    }
+    ;
+}
+function scrollUp(slide_content_height) {
+    if (index > 0) {
+        --index;
+        $("#slide_contents").css("transform", "translateY(" + index * -slide_content_height + "px)");
+        var currentSentence = lstSentences[index];
+        var previousSentence = lstSentences[index + 1];
+        highlightWord(previousSentence, currentSentence);
+    }
+}
+function scrollDown(slide_content_height) {
+    if (index < index_max - 1) {
+        $("#slide_contents").css("transform", "translateY(" + ++index * -slide_content_height + "px)");
+        //get the changed words
+        var currentSentence = lstSentences[index];
+        var previousSentence = lstSentences[index - 1];
+        highlightWord(previousSentence, currentSentence);
+    }
+}
 attachSlider = function(){
-  //get height of content to scroll
+    //get height of content to scroll
 var slide_content_height = $($('#slide_contents').children()[0]).height();
   $('body').on('keyup', function(e){
       if(e.keyCode === KEY_CODE_DOWN)
       {
-        if(index < index_max -1){
-            $("#slide_contents").css("transform","translateY("+ ++index * -slide_content_height +"px)");
-            //get the changed words
-            var currentSentence = lstSentences[index];
-            var previousSentence = lstSentences[index - 1];
-            for (var i = 0; i < previousSentence.split(' ').length; i++) {
-              if(previousSentence.split(' ')[i] !== currentSentence.split(' ')[i])
-              {
-                //append highlighter-class to changed words
-                $($($('#slide_contents').children()[index]).children()[i]).addClass('highlight');
-                (function(j){
-                  setTimeout(function(){$($($('#slide_contents').children()[index]).children()[j]).removeClass('highlight');},800);
-                })(i);
-              }
-            };
-      }
+        scrollDown(slide_content_height);
     }
   });
 
@@ -53,14 +70,22 @@ var slide_content_height = $($('#slide_contents').children()[0]).height();
   $('body').on('keyup', function(e){
      if(e.keyCode === KEY_CODE_UP)
       {
-        if(index > 0){
-            --index;
-            $("#slide_contents").css("transform","translateY("+  index * -slide_content_height +"px)");
-        }
+          scrollUp(slide_content_height);
       }
     });
+    $('body').swipe({
+        swipe:function(event, direction, distance, duration, fingerCount) {
+            switch (direction){
+                case 'up':
+                    scrollDown(slide_content_height);
+                    break;
+                case 'down':
+                    scrollUp(slide_content_height);
+                    break;
+            }
+        }
+    });
   };
-
 seprateWords = function(sentance){
     var div=$('<div/>');
     sentance.split(' ').forEach(function(word){
@@ -70,3 +95,5 @@ seprateWords = function(sentance){
     });
     return div;
   };
+
+
