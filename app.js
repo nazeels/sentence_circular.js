@@ -32,15 +32,23 @@ var slide_content_height = $($('#slide_contents').children()[0]).height();
       {
         if(index < index_max -1){
             $("#slide_contents").css("transform","translateY("+ ++index * -slide_content_height +"px)");
-            //append highlighter-class to changed words
-            $($('#slide_contents').children()[index]).children().addClass('highlight');
-            setTimeout(function(){
-              $($('#slide_contents').children()[index]).children().removeClass('highlight');
-            },800);
-
+            //get the changed words
+            var currentSentence = lstSentences[index];
+            var previousSentence = lstSentences[index - 1];
+            for (var i = 0; i < previousSentence.split(' ').length; i++) {
+              if(previousSentence.split(' ')[i] !== currentSentence.split(' ')[i])
+              {
+                //append highlighter-class to changed words
+                $($($('#slide_contents').children()[index]).children()[i]).addClass('highlight');
+                (function(j){
+                  setTimeout(function(){$($($('#slide_contents').children()[index]).children()[j]).removeClass('highlight');},800);
+                })(i);
+              }
+            };
       }
     }
   });
+
 
   $('body').on('keyup', function(e){
      if(e.keyCode === KEY_CODE_UP)
