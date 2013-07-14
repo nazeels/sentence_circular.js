@@ -1,28 +1,37 @@
-/*---- Slider |start| ------ */
-p#slide1_controls {
-text-align:center;
+
+body{
+    background-color: #f3f3f3;
 }
 
+/*---- Slider |start| ------ */
+/*p#slide1_controls {*/
+    /*text-align:center;*/
+/*}*/
+
 .slide_container {
-width:300px;
-height:20px;
-overflow:hidden;
-margin:0 auto;
+    width:400px;
+    height:20px;
+    overflow:hidden;
+    margin:0 auto;
+    top: 25%;
+    position: relative;
 }
 
 #slide_contents {
--webkit-transition:all 1.0s ease-in-out;
+    -webkit-transition:all 1.0s ease-in-out;
 }
 
 #slide_contents div {
-padding:0;
-margin:0;
-float:left;
+    padding:0;
+    margin:0;
+    float:left;
 }
-/*---- Slider |end| ------ */
 #slide_contents div span.word{
-margin: 20px;
+    display: inline-block;
+    width: 100px;
+    text-align: center;
 }
 #slide_contents div span.highlight{
-background-color:yellow;
+    background-color:yellow;
 }
+/*---- Slider |end| ------ */
