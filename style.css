@@ -1,16 +1,15 @@
 
 body{
     background-color: #f3f3f3;
+    font-family: arial;
+    font-size: 30;
 }
 
 /*---- Slider |start| ------ */
-/*p#slide1_controls {*/
-    /*text-align:center;*/
-/*}*/
 
 .slide_container {
-    width:400px;
-    height:20px;
+    width:600px;
+    height:37px;
     overflow:hidden;
     margin:0 auto;
     top: 25%;
@@ -28,7 +27,7 @@ body{
 }
 #slide_contents div span.word{
     display: inline-block;
-    width: 100px;
+    width: 150px;/*should 1/4th of slide_container width*/
     text-align: center;
 }
 #slide_contents div span.highlight{
